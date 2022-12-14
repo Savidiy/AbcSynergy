@@ -24,14 +24,14 @@
             Might = might;
         }
 
-        public override string ToString()
-        {
-            return $"{ID}({Might}, {Race}, {Class})";
-        }
-
         public void SetUsed(bool isUsed)
         {
             IsUsed = isUsed;
+        }
+
+        public override string ToString()
+        {
+            return $"{ID} ({Might}, {Race}, {Class})";
         }
     }
 }

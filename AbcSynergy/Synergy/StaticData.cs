@@ -82,7 +82,7 @@ namespace AbcSynergy.Synergy
             new(Soaring, 3, 27f, BuffType.All),
             new(Soaring, 4, 40f, BuffType.All),
             new(Warlock, 2, 5f, BuffType.All),
-            new(Warlock, 3, 75f, BuffType.All),
+            new(Warlock, 3, 7.5f, BuffType.All),
             new(Warlock, 4, 12f, BuffType.All),
             new(Shaman, 2, 12f, BuffType.All),
             new(Shaman, 3, 26f, BuffType.All),
@@ -189,5 +189,27 @@ namespace AbcSynergy.Synergy
         }
 
         public static List<HeroData> MightyHeroes { get; private set; }
+
+        public static void PrintHeroes()
+        {
+            Console.WriteLine("\nHeroes:");
+            foreach (HeroData heroData in Heroes)
+            {
+                Console.WriteLine(heroData);
+            }
+        }
+
+        public static void PrintRules()
+        {
+            Console.WriteLine("\nClass rules:");
+            foreach (ClassRule classRule in ClassRules)
+                if (classRule.IsAvailableRule)
+                    Console.WriteLine(classRule.ToLongString());
+
+            Console.WriteLine("\nRace rules:");
+            foreach (RaceRule raceRule in RaceRules)
+                if (raceRule.IsAvailableRule)
+                    Console.WriteLine(raceRule.ToLongString());
+        }
     }
 }

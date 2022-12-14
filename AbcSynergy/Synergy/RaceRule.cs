@@ -2,6 +2,7 @@
 {
     internal sealed class RaceRule : IRule
     {
+        private readonly float _bonusPercent;
         public Race Race { get; }
         public int Index { get; }
         public int Count { get; }
@@ -19,7 +20,8 @@
             Index = (int) race;
             Race = race;
             Count = count;
-            MightMultiplier = (bonusPercent + 100) / 100;
+            _bonusPercent = bonusPercent;
+            MightMultiplier = (_bonusPercent + 100) / 100;
             BuffType = buffType;
         }
 
@@ -53,6 +55,11 @@
             }
 
             Heroes.Clear();
+        }
+
+        public string ToLongString()
+        {
+            return $"{Race} #{Count} +{_bonusPercent}% for {BuffType}";
         }
 
         public override string ToString()

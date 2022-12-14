@@ -38,6 +38,8 @@ public class Oracle
 
         // assert
         stopwatch.Stop();
+        StaticData.PrintHeroes();
+        StaticData.PrintRules();
         Console.WriteLine($"Elapsed {stopwatch.ElapsedMilliseconds} mils");
     }
 
