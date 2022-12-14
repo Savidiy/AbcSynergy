@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TriggersSystem.Tests.Synergy
+﻿namespace AbcSynergy.Synergy
 {
     internal sealed class HeroesCombinator
     {

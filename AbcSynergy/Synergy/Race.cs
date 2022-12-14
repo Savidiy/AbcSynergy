@@ -1,4 +1,4 @@
-﻿namespace TriggersSystem.Tests.Synergy
+﻿namespace AbcSynergy.Synergy
 {
     internal enum Race
     {

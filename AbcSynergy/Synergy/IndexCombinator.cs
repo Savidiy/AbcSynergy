@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace TriggersSystem.Tests.Synergy
+﻿namespace AbcSynergy.Synergy
 {
     internal sealed class IndexCombinator
     {

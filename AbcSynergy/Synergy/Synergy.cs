@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TriggersSystem.Tests.Synergy
+namespace AbcSynergy.Synergy
 {
     [TestFixture]
     internal class Synergy

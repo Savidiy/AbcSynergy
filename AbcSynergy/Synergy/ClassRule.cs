@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TriggersSystem.Tests.Synergy
+﻿namespace AbcSynergy.Synergy
 {
     internal sealed class ClassRule : IRule
     {
@@ -10,6 +8,7 @@ namespace TriggersSystem.Tests.Synergy
         public List<HeroData> Heroes { get; } = new();
         public float MightMultiplier { get; }
         public BuffType BuffType { get; }
+        public bool IsAvailableRule => StaticData.MightyHeroesByClass.TryGetValue(Class, out var list) && list.Count >= Count;
 
         public ClassRule(
             Class @class,

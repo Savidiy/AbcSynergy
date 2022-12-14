@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TriggersSystem.Tests.Synergy
+﻿namespace AbcSynergy.Synergy
 {
     internal interface IRule
     {
@@ -12,6 +10,7 @@ namespace TriggersSystem.Tests.Synergy
         List<HeroData> Heroes { get; }
         float MightMultiplier { get; }
         BuffType BuffType { get; }
+        bool IsAvailableRule { get; }
         void RemoveAllHeroes();
     }
 }

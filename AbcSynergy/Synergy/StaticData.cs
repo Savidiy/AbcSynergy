@@ -1,20 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using static TriggersSystem.Tests.Synergy.Class;
-using static TriggersSystem.Tests.Synergy.Race;
+﻿using static AbcSynergy.Synergy.Class;
+using static AbcSynergy.Synergy.Race;
 
-namespace TriggersSystem.Tests.Synergy
+namespace AbcSynergy.Synergy
 {
-    enum BuffType
-    {
-        All,
-        OnlyMyType,
-        MostDanger,
-        CanHaveMana,
-    }
-    
     internal static class StaticData
     {
+        internal static readonly List<HeroData> Heroes = new List<HeroData>()
+        {
+            new("Диего", Plant, Warrior),
+            new("Шарисса", Reptile, Slayer),
+            new("Конрадд", Undead, Warrior),
+            new("Максимус", Tribe, Slayer),
+            new("Рататоск", Beast, Thief),
+            new("Тодд", Reptile, Guardian),
+            new("Рагнар", Gnome, Guardian),
+            new("Империон", Empire, Soaring),
+            new("Нобель", Elemental, Soaring),
+            new("Геката", Elf, Warlock),
+            new("Хеллсинг", Drifter, Shooter),
+            new("Минерва", Beast, Mage),
+            new("Мэрилин", Empire, Mage),
+            new("Титания", Empire, Warrior),
+            new("До-Цо", Beast, Warrior),
+            new("Норрис", Beast, Slayer),
+            new("Юкки", Drifter, Thief),
+            new("Ланселот", Empire, Guardian),
+            new("Джакси", Tribe, Guardian),
+            new("Эдвин", Drifter, Warlock),
+            new("Рашмор", Elemental, Warlock),
+            new("Ярра", Tribe, Shaman),
+            new("Бруно", Plant, Shaman),
+            new("Клаус", Gnome, Shooter),
+            new("Вара", Demon, Shooter),
+            new("Рамзес", Undead, Healer),
+            new("Вивьен", Elf, Healer),
+            new("Садако", Undead, Mage),
+            new("Али", Tribe, Warrior),
+            // new("Ангелия", Empire, Slayer),
+            // new("Винчи", Gnome, Warrior),
+            // new("Азраил", Undead, Slayer),
+            // new("Альтаир", Reptile, Thief),
+            // new("Гаргулли", Demon, Guardian),
+            // // new("Гискара", Beast, Soaring),
+            // new("Хазред", Undead, Warlock),
+            // new("Ингрид", Empire, Shaman),
+            // new("Бурбон", Beast, Shaman),
+            // new("Гомер", Plant, Shooter),
+            // new("Лариэль", Elf, Shooter),
+            // new("Блэр", Drifter, Healer),
+            // new("Имар", Elemental, Mage),
+            // new("Мордред", Demon, Warrior),
+            // new("Сильвия", Elf, Thief),
+            // new("Лихо", Plant, Guardian),
+            // new("Таурус", Beast, Guardian),
+            // new("Смауг", Undead, Soaring),
+            // new("Кормак", Gnome, Shaman),
+            // new("Артемида", Empire, Shooter),
+            // new("Тортулус", Reptile, Healer),
+            // new("Нерон", Drifter, Mage),
+            // new("Клио", Demon, Mage),
+            // new("Ханзо", Drifter, Warrior),
+            // new("Танатос", Demon, Slayer),
+            // new("Мясник", Undead, Guardian),
+            // new("Шен-Лунь", Reptile, Soaring),
+            // new("Тенгу", Beast, Warlock),
+            // new("Мария", Empire, Healer),
+            // new("Зевс", Gnome, Mage),
+        };
+
         internal static readonly List<ClassRule> ClassRules = new List<ClassRule>()
         {
             new(Warrior, 2, 10f, BuffType.OnlyMyType),
@@ -94,70 +147,6 @@ namespace TriggersSystem.Tests.Synergy
             new(Race.Any, 6, 0f, BuffType.All),
             new(Race.Any, 7, 0f, BuffType.All),
             new(Race.Any, 8, 0f, BuffType.All),
-        };
-
-        internal static readonly List<HeroData> Heroes = new List<HeroData>()
-        {
-            new("Диего", Plant, Warrior),
-            new("Шарисса", Reptile, Slayer),
-            new("Конрадд", Undead, Warrior),
-            new("Конрадд", Undead, Warrior),
-            new("Максимус", Tribe, Slayer),
-            new("Рататоск", Beast, Thief),
-            new("Тодд", Reptile, Guardian),
-            new("Рагнар", Gnome, Guardian),
-            new("Империон", Empire, Soaring),
-            new("Нобель", Elemental, Soaring),
-            new("Геката", Elf, Warlock),
-            new("Хеллсинг", Drifter, Shooter),
-            new("Минерва", Beast, Mage),
-            new("Мэрилин", Empire, Mage),
-            new("Титания", Empire, Warrior),
-            new("До-Цо", Beast, Warrior),
-            new("Норрис", Beast, Slayer),
-            new("Юкки", Drifter, Thief),
-            new("Ланселот", Empire, Guardian),
-            new("Джакси", Tribe, Guardian),
-            new("Эдвин", Drifter, Warlock),
-            new("Рашмор", Elemental, Warlock),
-            new("Ярра", Tribe, Shaman),
-            new("Бруно", Plant, Shaman),
-            new("Клаус", Gnome, Shooter),
-            new("Вара", Demon, Shooter),
-            new("Рамзес", Undead, Healer),
-            new("Вивьен", Elf, Healer),
-            new("Садако", Undead, Mage),
-            new("Али", Tribe, Warrior),
-            new("Ангелия", Empire, Slayer),
-            new("Винчи", Gnome, Warrior),
-            new("Азраил", Undead, Slayer),
-            new("Альтаир", Reptile, Thief),
-            new("Гаргулли", Demon, Guardian),
-            new("Гискара", Beast, Soaring),
-            new("Хазред", Undead, Warlock),
-            new("Ингрид", Empire, Shaman),
-            new("Бурбон", Beast, Shaman),
-            new("Гомер", Plant, Shooter),
-            new("Лариэль", Elf, Shooter),
-            new("Блэр", Drifter, Healer),
-            new("Имар", Elemental, Mage),
-            new("Мордред", Demon, Warrior),
-            new("Сильвия", Elf, Thief),
-            new("Лихо", Plant, Guardian),
-            new("Таурус", Beast, Guardian),
-            new("Смауг", Undead, Soaring),
-            new("Кормак", Gnome, Shaman),
-            new("Артемида", Empire, Shooter),
-            new("Тортулус", Reptile, Healer),
-            new("Нерон", Drifter, Mage),
-            new("Клио", Demon, Mage),
-            new("Ханзо", Drifter, Warrior),
-            new("Танатос", Demon, Slayer),
-            new("Мясник", Undead, Guardian),
-            new("Шен-Лунь", Reptile, Soaring),
-            new("Тенгу", Beast, Warlock),
-            new("Мария", Empire, Healer),
-            new("Зевс", Gnome, Mage),
         };
 
         public static void UpdateHeroesMight(int seed)
