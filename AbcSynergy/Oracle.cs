@@ -9,7 +9,7 @@ public class Oracle
 
     public void Execute()
     {
-        StaticData.UpdateHeroesMight(125);
+        StaticData.UpdateHeroesMight(123);
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
         var heroesCombinator = new HeroesCombinator();
@@ -40,7 +40,7 @@ public class Oracle
         stopwatch.Stop();
         StaticData.PrintHeroes();
         StaticData.PrintRules();
-        Console.WriteLine($"Elapsed {stopwatch.ElapsedMilliseconds} mils");
+        Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
     }
 
     private List<RulesSet> GetClassCombinations()
@@ -140,9 +140,10 @@ public class Oracle
         maximalRules.ModifyMightForPrivateRules();
 
         UseMostDangerRule(minimalRules, maximalRules);
+        UseCanHaveManaRule(minimalRules, maximalRules);
 
-        float mightMultiplier = minimalRules.GetCommonMightMultiplier();
-        mightMultiplier *= maximalRules.GetCommonMightMultiplier();
+        float mightMultiplier = minimalRules.CommonMightMultiplier;
+        mightMultiplier *= maximalRules.CommonMightMultiplier;
 
         float sumMight = CalcSumMight(minimalRules);
 
@@ -165,27 +166,47 @@ public class Oracle
 
     private static void UseMostDangerRule(RulesSet minimalRules, RulesSet maximalRules)
     {
-        if (!minimalRules.HasMostDangerRule() && !maximalRules.HasMostDangerRule())
+        if (!minimalRules.HasMostDangerRule && !maximalRules.HasMostDangerRule)
             return;
 
-        float mostDangerMightMultiplier = minimalRules.GetModifyMightForMostDangerRule();
-        mostDangerMightMultiplier *= maximalRules.GetModifyMightForMostDangerRule();
+        float mostDangerMightMultiplier = minimalRules.MultiplierForMostDangerRule;
+        mostDangerMightMultiplier *= maximalRules.MultiplierForMostDangerRule;
 
-        HeroData mightyHero = null;
-        float maxMight = float.MinValue;
+        HeroData mostDangerHero = null;
+        float maxDamagePerSeconds = float.MinValue;
         foreach (IRule rule in minimalRules.Rules)
         {
             foreach (HeroData ruleHero in rule.Heroes)
             {
-                if (ruleHero.ModifiedMight > maxMight)
+                if (ruleHero.DamagePerSecond > maxDamagePerSeconds)
                 {
-                    mightyHero = ruleHero;
-                    maxMight = ruleHero.ModifiedMight;
+                    mostDangerHero = ruleHero;
+                    maxDamagePerSeconds = ruleHero.DamagePerSecond;
                 }
             }
         }
 
-        mightyHero.ModifiedMight *= mostDangerMightMultiplier;
+        mostDangerHero.ModifiedMight *= mostDangerMightMultiplier;
+    }
+
+    private static void UseCanHaveManaRule(RulesSet minimalRules, RulesSet maximalRules)
+    {
+        if (!minimalRules.HasCanHaveManaRule && !maximalRules.HasCanHaveManaRule)
+            return;
+
+        float canHaveManaMightMultiplier = minimalRules.MultiplierForCanHaveManaRule;
+        canHaveManaMightMultiplier *= maximalRules.MultiplierForCanHaveManaRule;
+
+        foreach (IRule rule in minimalRules.Rules)
+        {
+            foreach (HeroData ruleHero in rule.Heroes)
+            {
+                if (ruleHero.CanHaveMana)
+                {
+                    ruleHero.ModifiedMight *= canHaveManaMightMultiplier;
+                }
+            }
+        }
     }
 
     private static bool TryAddAllHeroes(IReadOnlyList<HeroData> combination, RulesSet minimalRules, RulesSet maximalRules)

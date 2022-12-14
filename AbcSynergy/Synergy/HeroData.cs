@@ -2,10 +2,12 @@
 {
     internal sealed class HeroData
     {
-        public string ID { get; }
+        public string Id { get; }
         public Race Race { get; }
         public Class Class { get; }
         public int Might { get; private set; }
+        public bool CanHaveMana { get; private set; }
+        public int DamagePerSecond { get; private set; }
         public float ModifiedMight { get; set; }
         public bool IsUsed { get; private set; }
 
@@ -14,13 +16,15 @@
             Race race,
             Class @class)
         {
-            ID = id;
+            Id = id;
             Race = race;
             Class = @class;
         }
 
-        public void SetMight(int might)
+        public void SetRandom(int might, bool canHaveMana, int damagePerSecond)
         {
+            DamagePerSecond = damagePerSecond;
+            CanHaveMana = canHaveMana;
             Might = might;
         }
 
@@ -31,7 +35,7 @@
 
         public override string ToString()
         {
-            return $"{ID} ({Might}, {Race}, {Class})";
+            return $"{Id} (Might={Might}, DPS={DamagePerSecond}, {Race}, {Class}{(CanHaveMana ? ", have mana" : "")})";
         }
     }
 }

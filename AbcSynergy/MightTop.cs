@@ -69,7 +69,7 @@ internal sealed class MightTop
                 _stringBuilder.Append(", ");
 
             HeroData heroData = heroes[index];
-            _stringBuilder.Append(heroData.ID);
+            _stringBuilder.Append(heroData.Id);
         }
 
         var result = _stringBuilder.ToString();

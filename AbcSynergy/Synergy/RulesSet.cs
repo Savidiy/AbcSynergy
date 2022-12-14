@@ -10,6 +10,11 @@
         public int RemainingCount => _limit - _placeForHeroesCount;
         public int LastIndex { get; private set; } = 0;
         public bool IsFullHeroes => _heroesCount == _limit;
+        public float CommonMightMultiplier { get; private set; }
+        public bool HasMostDangerRule { get; private set; }
+        public float MultiplierForMostDangerRule { get; private set; }
+        public bool HasCanHaveManaRule { get; private set; }
+        public float MultiplierForCanHaveManaRule { get; private set; }
 
         public RulesSet(int limit)
         {
@@ -35,6 +40,8 @@
             Rules.Add(newRule);
             _placeForHeroesCount += newRule.Count;
             LastIndex = newRule.Index;
+
+            RecalcModifiers();
         }
 
         public RulesSet Clone()
@@ -100,33 +107,49 @@
                         ruleHero.ModifiedMight *= rule.MightMultiplier;
         }
 
-        public float GetCommonMightMultiplier()
+        private void RecalcModifiers()
+        {
+            UpdateCommonMightMultiplier();
+            UpdateMultiplierForMostDangerRule();
+            UpdateMultiplierForCanHaveManaRule();
+        }
+
+        private void UpdateCommonMightMultiplier()
         {
             var multiplier = 1f;
             foreach (IRule rule in Rules)
                 if (rule.BuffType == BuffType.All)
                     multiplier *= rule.MightMultiplier;
 
-            return multiplier;
+            CommonMightMultiplier = multiplier;
         }
 
-        public float GetModifyMightForMostDangerRule()
+        private void UpdateMultiplierForMostDangerRule()
         {
+            HasMostDangerRule = false;
             var multiplier = 1f;
             foreach (IRule rule in Rules)
                 if (rule.BuffType == BuffType.MostDanger)
+                {
                     multiplier *= rule.MightMultiplier;
+                    HasMostDangerRule = true;
+                }
 
-            return multiplier;
+            MultiplierForMostDangerRule = multiplier;
         }
 
-        public bool HasMostDangerRule()
+        private void UpdateMultiplierForCanHaveManaRule()
         {
+            HasCanHaveManaRule = false;
+            var multiplier = 1f;
             foreach (IRule rule in Rules)
-                if (rule.BuffType == BuffType.MostDanger)
-                    return true;
+                if (rule.BuffType == BuffType.CanHaveMana)
+                {
+                    multiplier *= rule.MightMultiplier;
+                    HasCanHaveManaRule = true;
+                }
 
-            return false;
+            MultiplierForCanHaveManaRule = multiplier;
         }
     }
 }

@@ -154,7 +154,10 @@ namespace AbcSynergy.Synergy
             var random = new Random(seed);
             foreach (HeroData heroData in StaticData.Heroes)
             {
-                heroData.SetMight(random.Next(10, 1000));
+                int might = random.Next(10, 1000);
+                bool canHaveMana = random.Next(0, 2) == 0;
+                int damagePerSecond = might * random.Next(7, 13);
+                heroData.SetRandom(might, canHaveMana, damagePerSecond);
             }
 
             UpdateSortedLists();
