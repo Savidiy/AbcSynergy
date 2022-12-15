@@ -99,13 +99,13 @@
             for (var index = 0; index < rulesSet.Rules.Count; index++)
             {
                 IRule rule = rulesSet.Rules[index];
-                if (rule is ClassRule classRule && classRule.Class != Class.Any)
+                if (rule is ClassRule classRule && !classRule.IsRuleForAnyHeroes)
                 {
                     _heroSets[index].Set(StaticData.MightyHeroesByClass[classRule.Class], classRule.Count);
                     _heroSetCount++;
                     heroCount += classRule.Count;
                 }
-                else if (rule is RaceRule raceRule && raceRule.Race != Race.Any)
+                else if (rule is RaceRule raceRule && !raceRule.IsRuleForAnyHeroes)
                 {
                     _heroSets[index].Set(StaticData.MightyHeroesByRace[raceRule.Race], raceRule.Count);
                     _heroSetCount++;

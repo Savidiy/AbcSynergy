@@ -6,6 +6,7 @@
         public Class Class { get; }
         public int Index { get; }
         public int Count { get; }
+        public bool IsRuleForAnyHeroes { get; }
         public List<HeroData> Heroes { get; } = new();
         public float MightMultiplier { get; }
         public BuffType BuffType { get; }
@@ -19,6 +20,7 @@
         {
             Index = (int) @class;
             Class = @class;
+            IsRuleForAnyHeroes = Class == Class.Any;
             Count = count;
             _bonusPercent = bonusPercent;
             MightMultiplier = (_bonusPercent + 100) / 100;
@@ -30,7 +32,7 @@
             if (Heroes.Count >= Count)
                 return false;
 
-            if (Class == Class.Any || Class == heroData.Class)
+            if (IsRuleForAnyHeroes || Class == heroData.Class)
             {
                 return true;
             }

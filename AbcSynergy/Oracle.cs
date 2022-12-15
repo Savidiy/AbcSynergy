@@ -91,7 +91,6 @@ public class Oracle
                     {
                         bestMight = might;
                         UpdateBestHeroes(heroesBuffer, minimalRules);
-                        bestMightFounded++;
                     }
                 }
             }
@@ -99,9 +98,6 @@ public class Oracle
             minimalRules.RemoveAllHeroes();
             maximalRules.RemoveAllHeroes();
         }
-
-        // if (bestMightFounded > 1)
-        //     Console.Write($"{bestMightFounded} ");
 
         return bestMight;
     }
@@ -248,7 +244,7 @@ public class Oracle
         for (var index = 0; index < rulesSet.Rules.Count; index++)
         {
             IRule rule = rulesSet.Rules[index];
-            if (rule is ClassRule classRule && classRule.Class != Class.Any)
+            if (rule is ClassRule classRule && !classRule.IsRuleForAnyHeroes)
             {
                 int heroesCount = StaticData.MightyHeroesByClass[classRule.Class].Count;
                 for (int i = 0; i < classRule.Count; i++)
@@ -256,7 +252,7 @@ public class Oracle
                     count *= heroesCount - i;
                 }
             }
-            else if (rule is RaceRule raceRule && raceRule.Race != Race.Any)
+            else if (rule is RaceRule raceRule && !raceRule.IsRuleForAnyHeroes)
             {
                 int heroesCount = StaticData.MightyHeroesByRace[raceRule.Race].Count;
                 for (int i = 0; i < raceRule.Count; i++)

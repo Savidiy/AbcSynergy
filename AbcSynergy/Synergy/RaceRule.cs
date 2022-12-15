@@ -6,6 +6,7 @@
         public Race Race { get; }
         public int Index { get; }
         public int Count { get; }
+        public bool IsRuleForAnyHeroes { get; }
         public List<HeroData> Heroes { get; } = new();
         public float MightMultiplier { get; }
         public BuffType BuffType { get; }
@@ -19,6 +20,7 @@
         {
             Index = (int) race;
             Race = race;
+            IsRuleForAnyHeroes = Race == Race.Any;
             Count = count;
             _bonusPercent = bonusPercent;
             MightMultiplier = (_bonusPercent + 100) / 100;
@@ -30,7 +32,7 @@
             if (Heroes.Count >= Count)
                 return false;
 
-            if (Race == Race.Any || Race == heroData.Race)
+            if (IsRuleForAnyHeroes || Race == heroData.Race)
             {
                 return true;
             }

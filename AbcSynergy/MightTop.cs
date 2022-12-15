@@ -76,4 +76,12 @@ internal sealed class MightTop
         _stringBuilder.Clear();
         return result;
     }
+
+    public float GetBestMight()
+    {
+        if (_topHeroes.Count > 0)
+            return _topHeroes[0].Might;
+
+        return 0;
+    }
 }
