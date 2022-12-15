@@ -213,10 +213,13 @@ public class Oracle
     {
         foreach (HeroData heroData in combination)
         {
-            heroData.SetUsed(true);
-            minimalRules.TryAddHero(heroData);
             if (!maximalRules.TryAddHero(heroData))
                 return false;
+        }
+        foreach (HeroData heroData in combination)
+        {
+            heroData.SetUsed(true);
+            minimalRules.TryAddHero(heroData);
         }
 
         return true;
