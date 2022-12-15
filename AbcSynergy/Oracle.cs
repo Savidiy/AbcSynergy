@@ -19,6 +19,7 @@ public class Oracle
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
+        Console.WriteLine($"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count}");
 
         for (var classIndex = 0; classIndex < classCombinations.Count; classIndex++)
         {
@@ -31,14 +32,16 @@ public class Oracle
                 mightTop.TryAdd(might, heroesBuffer, classRules, raceRules);
             }
 
-            Console.Clear();
-            Console.WriteLine($"{classIndex}/{classCombinations.Count}");
-
-            mightTop.PrintTop();
+            if (classIndex % 10 == 0)
+                Console.Write(classIndex);
+            else
+                Console.Write('.');
         }
 
         // assert
         stopwatch.Stop();
+        Console.Clear();
+        mightTop.PrintTop();
         StaticData.PrintHeroes();
         StaticData.PrintRules();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
