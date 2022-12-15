@@ -72,8 +72,13 @@ public class Oracle
         heroesBuffer.Clear();
         float bestMight = 0;
         int bestMightFounded = 0;
-        foreach (IReadOnlyList<HeroData> combination in heroesCombinator.GetHeroesCombinations(minimalRules))
+
+        heroesCombinator.SetupRules(minimalRules);
+
+        while (heroesCombinator.HasNextCombination)
         {
+            IReadOnlyList<HeroData> combination = heroesCombinator.GetNextCombination();
+
             if (TryAddAllHeroes(combination, minimalRules, maximalRules))
             {
                 if (TryAddEmptyHeroes(minimalRules, maximalRules))
@@ -217,6 +222,7 @@ public class Oracle
             if (!maximalRules.TryAddHero(heroData))
                 return false;
         }
+
         foreach (HeroData heroData in combination)
         {
             heroData.SetUsed(true);
@@ -313,10 +319,10 @@ public class Oracle
         {
             if (lastIndex > rule.Index)
                 continue;
-            
+
             if (!rule.IsAvailableRule)
                 continue;
-                
+
             if (!rulesSet.CanAdd(rule))
                 continue;
 

@@ -4,7 +4,7 @@
     {
         private readonly Dictionary<int, Dictionary<int, List<IReadOnlyList<int>>>> _precalculatedResults = new();
 
-        public IEnumerable<IReadOnlyList<int>> GetIndexCombinations(int resultCount, int indexQuantity)
+        public List<IReadOnlyList<int>> GetIndexCombinations(int resultCount, int indexQuantity)
         {
             if (resultCount > indexQuantity)
                 throw new Exception(

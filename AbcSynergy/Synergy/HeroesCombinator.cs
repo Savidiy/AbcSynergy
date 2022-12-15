@@ -2,53 +2,92 @@
 {
     internal sealed class HeroesCombinator
     {
+        private readonly int[] _combinationIndexes;
+        private readonly int[] _maxCombinationIndexes;
         private readonly List<HeroSet> _heroSets;
         private readonly List<HeroData> _selectedHeroes;
         private readonly IndexCombinator _indexCombinator = new();
         private int _heroSetCount = 0;
+        private bool _hasNextCombination;
+
+        public bool HasNextCombination => _hasNextCombination;
 
         public HeroesCombinator(int maxSetsCount, int maxHeroesCount)
         {
             _selectedHeroes = new(maxHeroesCount);
             _heroSets = new(maxSetsCount);
-            for (int i = 0; i < maxSetsCount; i++) 
+            _combinationIndexes = new int[maxSetsCount];
+            _maxCombinationIndexes = new int[maxSetsCount];
+
+            for (int i = 0; i < maxSetsCount; i++)
+            {
                 _heroSets.Add(new HeroSet());
+            }
         }
 
-        public IEnumerable<IReadOnlyList<HeroData>> GetHeroesCombinations(RulesSet rulesSet)
+        public void SetupRules(RulesSet rulesSet)
         {
             UpdateHeroSets(rulesSet);
-
-            foreach (bool unused in CombineSets(0, 0))
+            for (int i = 0; i < _heroSetCount; i++)
             {
-                yield return _selectedHeroes;
+                _combinationIndexes[i] = 0;
+                
+                HeroSet heroSet = _heroSets[i];
+                int heroesCount = heroSet.Heroes.Count;
+                int selectCount = heroSet.SelectCount;
+                List<IReadOnlyList<int>> indexCombinations = _indexCombinator.GetIndexCombinations(selectCount, heroesCount);
+
+                _maxCombinationIndexes[i] = indexCombinations.Count;
             }
+
+            _hasNextCombination = _heroSetCount != 0;
         }
 
-        private IEnumerable<bool> CombineSets(int startSet, int startIndex)
+        public IReadOnlyList<HeroData> GetNextCombination()
         {
-            if (startSet >= _heroSetCount)
+            int heroInSetPosition = 0;
+
+            for (var heroSetIndex = 0; heroSetIndex < _heroSetCount; heroSetIndex++)
             {
-                yield return false;
-            }
-            else
-            {
-                HeroSet heroSet = _heroSets[startSet];
+                HeroSet heroSet = _heroSets[heroSetIndex];
                 int heroesCount = heroSet.Heroes.Count;
                 int selectCount = heroSet.SelectCount;
 
-                foreach (IReadOnlyList<int> indexCombination in _indexCombinator.GetIndexCombinations(selectCount, heroesCount))
+                List<IReadOnlyList<int>> indexCombinations = _indexCombinator.GetIndexCombinations(selectCount, heroesCount);
+                int combinationPosition = _combinationIndexes[heroSetIndex];
+                IReadOnlyList<int> indexCombination = indexCombinations[combinationPosition];
+                for (var index = 0; index < indexCombination.Count; index++)
                 {
-                    for (var index = 0; index < indexCombination.Count; index++)
-                    {
-                        int heroIndex = indexCombination[index];
-                        _selectedHeroes[startIndex + index] = heroSet.Heroes[heroIndex];
-                    }
+                    int heroIndex = indexCombination[index];
+                    _selectedHeroes[heroInSetPosition] = heroSet.Heroes[heroIndex];
+                    heroInSetPosition++;
+                }
+            }
 
-                    foreach (bool result in CombineSets(startSet + 1, startIndex + selectCount))
-                    {
-                        yield return true;
-                    }
+            IncrementCombinationIndexes();
+
+            return _selectedHeroes;
+        }
+
+        private void IncrementCombinationIndexes()
+        {
+            _combinationIndexes[_heroSetCount - 1]++;
+                
+            for (int i = _heroSetCount - 1; i >= 0; i--)
+            {
+                int index = _combinationIndexes[i];
+                int maxIndex = _maxCombinationIndexes[i];
+                if (index < maxIndex)
+                    continue;
+                
+                if (i == 0)
+                {
+                    _hasNextCombination = false;
+                }
+                else
+                {
+                    _combinationIndexes[i] = 0;
+                    _combinationIndexes[i - 1]++;
                 }
             }
         }
@@ -73,10 +112,10 @@
                     heroCount += raceRule.Count;
                 }
             }
-            
+
             _selectedHeroes.Clear();
-                for (int i = 0; i < heroCount; i++)
-                    _selectedHeroes.Add(null);
+            for (int i = 0; i < heroCount; i++)
+                _selectedHeroes.Add(null);
         }
     }
 }
