@@ -109,10 +109,12 @@ public class Oracle
     private void UpdateBestHeroes(List<HeroData> bestHeroes, RulesSet minimalRules)
     {
         bestHeroes.Clear();
-        foreach (IRule rule in minimalRules.Rules)
+        for (var ruleIndex = 0; ruleIndex < minimalRules.Rules.Count; ruleIndex++)
         {
-            foreach (HeroData ruleHero in rule.Heroes)
+            IRule rule = minimalRules.Rules[ruleIndex];
+            for (var heroIndex = 0; heroIndex < rule.Heroes.Count; heroIndex++)
             {
+                HeroData ruleHero = rule.Heroes[heroIndex];
                 bestHeroes.Add(ruleHero);
             }
         }
@@ -123,8 +125,9 @@ public class Oracle
         if (minimalRules.IsFullHeroes)
             return true;
 
-        foreach (HeroData hero in StaticData.MightyHeroes)
+        for (var index = 0; index < StaticData.MightyHeroes.Count; index++)
         {
+            HeroData hero = StaticData.MightyHeroes[index];
             if (hero.IsUsed)
                 continue;
 
@@ -162,10 +165,12 @@ public class Oracle
     private static float CalcSumMight(RulesSet minimalRules)
     {
         float sumMight = 0;
-        foreach (IRule rule in minimalRules.Rules)
+        for (var index = 0; index < minimalRules.Rules.Count; index++)
         {
-            foreach (HeroData ruleHero in rule.Heroes)
+            IRule rule = minimalRules.Rules[index];
+            for (var heroIndex = 0; heroIndex < rule.Heroes.Count; heroIndex++)
             {
+                HeroData ruleHero = rule.Heroes[heroIndex];
                 sumMight += ruleHero.ModifiedMight;
             }
         }
@@ -220,14 +225,16 @@ public class Oracle
 
     private static bool TryAddAllHeroes(IReadOnlyList<HeroData> combination, RulesSet minimalRules, RulesSet maximalRules)
     {
-        foreach (HeroData heroData in combination)
+        for (var index = 0; index < combination.Count; index++)
         {
+            HeroData heroData = combination[index];
             if (!maximalRules.TryAddHero(heroData))
                 return false;
         }
 
-        foreach (HeroData heroData in combination)
+        for (var index = 0; index < combination.Count; index++)
         {
+            HeroData heroData = combination[index];
             heroData.SetUsed(true);
             minimalRules.TryAddHero(heroData);
         }
@@ -238,8 +245,9 @@ public class Oracle
     private int FindRuleCombinationsCount(RulesSet rulesSet)
     {
         var count = 1;
-        foreach (IRule rule in rulesSet.Rules)
+        for (var index = 0; index < rulesSet.Rules.Count; index++)
         {
+            IRule rule = rulesSet.Rules[index];
             if (rule is ClassRule classRule && classRule.Class != Class.Any)
             {
                 int heroesCount = StaticData.MightyHeroesByClass[classRule.Class].Count;
@@ -271,8 +279,9 @@ public class Oracle
 
         while (growingSets.Count > 0)
         {
-            foreach (RulesSet growingSet in growingSets)
+            for (var index = 0; index < growingSets.Count; index++)
             {
+                RulesSet growingSet = growingSets[index];
                 FillBufferWithNewRules(buffer, growingSet, rules);
 
                 RulesSet completedNewRulesSet = CreateRuleWithAnyInstance(withoutRules, growingSet);
@@ -293,8 +302,9 @@ public class Oracle
         List<RulesSet> fullSets,
         List<RulesSet> growingSets)
     {
-        foreach (RulesSet rulesSet in buffer)
+        for (var index = 0; index < buffer.Count; index++)
         {
+            RulesSet rulesSet = buffer[index];
             if (rulesSet.RemainingCount == 0)
             {
                 fullSets.Add(rulesSet);
@@ -318,8 +328,9 @@ public class Oracle
     {
         int lastIndex = rulesSet.LastIndex;
 
-        foreach (IRule rule in rules)
+        for (var index = 0; index < rules.Count; index++)
         {
+            IRule rule = rules[index];
             if (lastIndex > rule.Index)
                 continue;
 

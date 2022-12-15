@@ -47,8 +47,9 @@
         public RulesSet Clone()
         {
             var rulesSet = new RulesSet(_limit);
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
             {
+                IRule rule = Rules[index];
                 rulesSet.Add(rule);
             }
 
@@ -57,17 +58,21 @@
 
         public bool CanAddHero(HeroData heroData)
         {
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
+            {
+                IRule rule = Rules[index];
                 if (rule.CanAddHero(heroData))
                     return true;
+            }
 
             return false;
         }
 
         public bool TryAddHero(HeroData heroData)
         {
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
             {
+                IRule rule = Rules[index];
                 if (rule.TryAddHero(heroData))
                 {
                     _heroesCount++;
@@ -80,8 +85,9 @@
 
         public void RemoveAllHeroes()
         {
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
             {
+                IRule rule = Rules[index];
                 rule.RemoveAllHeroes();
             }
 
@@ -90,10 +96,12 @@
 
         public void ResetHeroMight()
         {
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
             {
-                foreach (HeroData ruleHero in rule.Heroes)
+                IRule rule = Rules[index];
+                for (var heroIndex = 0; heroIndex < rule.Heroes.Count; heroIndex++)
                 {
+                    HeroData ruleHero = rule.Heroes[heroIndex];
                     ruleHero.ModifiedMight = ruleHero.Might;
                 }
             }
@@ -101,10 +109,16 @@
 
         public void ModifyMightForPrivateRules()
         {
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
+            {
+                IRule rule = Rules[index];
                 if (rule.BuffType == BuffType.OnlyMyType)
-                    foreach (HeroData ruleHero in rule.Heroes)
+                    for (var heroIndex = 0; heroIndex < rule.Heroes.Count; heroIndex++)
+                    {
+                        HeroData ruleHero = rule.Heroes[heroIndex];
                         ruleHero.ModifiedMight *= rule.MightMultiplier;
+                    }
+            }
         }
 
         private void RecalcModifiers()
@@ -117,9 +131,12 @@
         private void UpdateCommonMightMultiplier()
         {
             var multiplier = 1f;
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
+            {
+                IRule rule = Rules[index];
                 if (rule.BuffType == BuffType.All)
                     multiplier *= rule.MightMultiplier;
+            }
 
             CommonMightMultiplier = multiplier;
         }
@@ -128,12 +145,15 @@
         {
             HasMostDangerRule = false;
             var multiplier = 1f;
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
+            {
+                IRule rule = Rules[index];
                 if (rule.BuffType == BuffType.MostDanger)
                 {
                     multiplier *= rule.MightMultiplier;
                     HasMostDangerRule = true;
                 }
+            }
 
             MultiplierForMostDangerRule = multiplier;
         }
@@ -142,12 +162,15 @@
         {
             HasCanHaveManaRule = false;
             var multiplier = 1f;
-            foreach (IRule rule in Rules)
+            for (var index = 0; index < Rules.Count; index++)
+            {
+                IRule rule = Rules[index];
                 if (rule.BuffType == BuffType.CanHaveMana)
                 {
                     multiplier *= rule.MightMultiplier;
                     HasCanHaveManaRule = true;
                 }
+            }
 
             MultiplierForCanHaveManaRule = multiplier;
         }
