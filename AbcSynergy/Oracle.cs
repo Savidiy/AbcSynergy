@@ -6,13 +6,14 @@ namespace AbcSynergy;
 public class Oracle
 {
     private const int SQUAD_SIZE = 8;
+    private const int MAX_RULES_SIMULTANEOUSLY = 4;
 
     public void Execute()
     {
         StaticData.UpdateHeroesMight(123);
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
-        var heroesCombinator = new HeroesCombinator();
+        var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, SQUAD_SIZE);
         List<HeroData> heroesBuffer = new(SQUAD_SIZE);
         var mightTop = new MightTop();
 
