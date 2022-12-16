@@ -64,10 +64,10 @@ internal sealed class MightCalculator
     {
         _usedClasses.Clear();
         _usedRaces.Clear();
-        foreach (Class value in Enum.GetValues(typeof(Class)))
+        foreach (Class value in _heroesOfClass.Keys)
             _heroesOfClass[value] = 0;
 
-        foreach (Race value in Enum.GetValues(typeof(Race)))
+        foreach (Race value in _heroesOfRace.Keys)
             _heroesOfRace[value] = 0;
 
         foreach (HeroData heroData in heroes)
@@ -83,22 +83,29 @@ internal sealed class MightCalculator
         switch (rule.BuffType)
         {
             case BuffType.All:
-                foreach (HeroData heroData in heroes)
+                for (var index = 0; index < heroes.Count; index++)
+                {
+                    HeroData heroData = heroes[index];
                     heroData.ModifiedMight *= rule.MightMultiplier;
+                }
 
                 break;
             case BuffType.OnlyMyType:
-                foreach (HeroData heroData in heroes)
+                for (var index = 0; index < heroes.Count; index++)
+                {
+                    HeroData heroData = heroes[index];
                     if (rule is ClassRule classRule && classRule.Class == heroData.Class ||
                         rule is RaceRule raceRule && raceRule.Race == heroData.Race)
                         heroData.ModifiedMight *= rule.MightMultiplier;
+                }
 
                 break;
             case BuffType.MostDanger:
                 HeroData mostDangerHero = null;
                 float maxDamagePerSeconds = float.MinValue;
-                foreach (HeroData ruleHero in heroes)
+                for (var index = 0; index < heroes.Count; index++)
                 {
+                    HeroData ruleHero = heroes[index];
                     if (ruleHero.DamagePerSecond > maxDamagePerSeconds)
                     {
                         mostDangerHero = ruleHero;

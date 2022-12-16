@@ -5,25 +5,26 @@ namespace AbcSynergy;
 
 public class Oracle
 {
-    private const int SQUAD_SIZE = 8;
     private const int MAX_RULES_SIMULTANEOUSLY = 4;
-    private const int RANDOM_SEED = 123;
     private readonly MightCalculator _mightCalculator = new();
-    private readonly HeroData[] _mightHeroesBuffer = new HeroData[SQUAD_SIZE];
+    private HeroData[] _mightHeroesBuffer;
+    private int _squadSize;
 
-    public void Execute()
+    public void Execute(int randomSeed, int squadSize)
     {
-        StaticData.UpdateHeroesMight(RANDOM_SEED);
+        _squadSize = squadSize;
+        _mightHeroesBuffer = new HeroData[squadSize];
+        StaticData.UpdateHeroesMight(randomSeed);
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
-        var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, SQUAD_SIZE);
-        List<HeroData> heroesBuffer = new(SQUAD_SIZE);
+        var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, squadSize);
+        List<HeroData> heroesBuffer = new(squadSize);
         var mightTop = new MightTop();
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         Console.WriteLine(
-            $"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {SQUAD_SIZE} heroes, random seed {RANDOM_SEED}");
+            $"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {squadSize} heroes, random seed {randomSeed}");
 
         for (var classIndex = 0; classIndex < classCombinations.Count; classIndex++)
         {
@@ -44,8 +45,7 @@ public class Oracle
 
         // assert
         stopwatch.Stop();
-        Console.Clear();
-        mightTop.PrintTop(SQUAD_SIZE);
+        mightTop.PrintTop(squadSize);
         StaticData.PrintHeroes();
         StaticData.PrintRules();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
@@ -293,7 +293,7 @@ public class Oracle
         var buffer = new List<RulesSet>();
 
         var growingSets = new List<RulesSet>();
-        growingSets.Add(new(SQUAD_SIZE));
+        growingSets.Add(new(_squadSize));
 
         while (growingSets.Count > 0)
         {
