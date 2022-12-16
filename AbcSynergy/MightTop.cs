@@ -16,7 +16,7 @@ internal sealed class MightTop
             _topHeroes.Add(new TopData(might, heroesBuffer, classRules, raceRules));
             _topHeroes.Sort(MightDecreaseComparison);
         }
-        else if (_topHeroes[^1].Might < might)
+        else if (might - _topHeroes[^1].Might > 1)
         {
             _topHeroes[^1] = new TopData(might, heroesBuffer, classRules, raceRules);
             _topHeroes.Sort(MightDecreaseComparison);

@@ -8,6 +8,8 @@ public class Oracle
     private const int SQUAD_SIZE = 8;
     private const int MAX_RULES_SIMULTANEOUSLY = 4;
     private const int RANDOM_SEED = 123;
+    private readonly MightCalculator _mightCalculator = new();
+    private readonly HeroData[] _mightHeroesBuffer = new HeroData[SQUAD_SIZE];
 
     public void Execute()
     {
@@ -20,7 +22,8 @@ public class Oracle
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        Console.WriteLine($"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {SQUAD_SIZE} heroes, random seed {RANDOM_SEED}");
+        Console.WriteLine(
+            $"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {SQUAD_SIZE} heroes, random seed {RANDOM_SEED}");
 
         for (var classIndex = 0; classIndex < classCombinations.Count; classIndex++)
         {
@@ -87,8 +90,9 @@ public class Oracle
             {
                 if (TryAddEmptyHeroes(minimalRules, maximalRules))
                 {
-                    float might = CalcMight(minimalRules, maximalRules);
-                    if (might > bestMight)
+                    float might = _mightCalculator.CalcMight(GetHeroes(minimalRules));
+                    float notFullRulesMight = CalcMight(minimalRules, maximalRules);
+                    if (might - notFullRulesMight < 1 && might > bestMight)
                     {
                         bestMight = might;
                         UpdateBestHeroes(heroesBuffer, minimalRules);
@@ -101,6 +105,23 @@ public class Oracle
         }
 
         return bestMight;
+    }
+
+    private IReadOnlyList<HeroData> GetHeroes(RulesSet rulesSet)
+    {
+        int bufferIndex = 0;
+        for (var ruleIndex = 0; ruleIndex < rulesSet.Rules.Count; ruleIndex++)
+        {
+            IRule rule = rulesSet.Rules[ruleIndex];
+            for (var heroIndex = 0; heroIndex < rule.Heroes.Count; heroIndex++)
+            {
+                HeroData hero = rule.Heroes[heroIndex];
+                _mightHeroesBuffer[bufferIndex] = hero;
+                bufferIndex++;
+            }
+        }
+
+        return _mightHeroesBuffer;
     }
 
     private void UpdateBestHeroes(List<HeroData> bestHeroes, RulesSet minimalRules)
