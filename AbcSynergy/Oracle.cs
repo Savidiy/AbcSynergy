@@ -7,10 +7,11 @@ public class Oracle
 {
     private const int SQUAD_SIZE = 8;
     private const int MAX_RULES_SIMULTANEOUSLY = 4;
+    private const int RANDOM_SEED = 123;
 
     public void Execute()
     {
-        StaticData.UpdateHeroesMight(123);
+        StaticData.UpdateHeroesMight(RANDOM_SEED);
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
         var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, SQUAD_SIZE);
@@ -19,7 +20,7 @@ public class Oracle
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        Console.WriteLine($"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count}");
+        Console.WriteLine($"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {SQUAD_SIZE} heroes, random seed {RANDOM_SEED}");
 
         for (var classIndex = 0; classIndex < classCombinations.Count; classIndex++)
         {
@@ -41,7 +42,7 @@ public class Oracle
         // assert
         stopwatch.Stop();
         Console.Clear();
-        mightTop.PrintTop();
+        mightTop.PrintTop(SQUAD_SIZE);
         StaticData.PrintHeroes();
         StaticData.PrintRules();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");

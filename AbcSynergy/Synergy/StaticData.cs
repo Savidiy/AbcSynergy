@@ -107,6 +107,7 @@ namespace AbcSynergy.Synergy
             new(Class.Any, 6, 0, BuffType.All),
             new(Class.Any, 7, 0, BuffType.All),
             new(Class.Any, 8, 0, BuffType.All),
+            new(Class.Any, 9, 0, BuffType.All),
         };
 
         internal static readonly List<RaceRule> RaceRules = new List<RaceRule>()
@@ -147,6 +148,7 @@ namespace AbcSynergy.Synergy
             new(Race.Any, 6, 0f, BuffType.All),
             new(Race.Any, 7, 0f, BuffType.All),
             new(Race.Any, 8, 0f, BuffType.All),
+            new(Race.Any, 9, 0f, BuffType.All),
         };
 
         public static void UpdateHeroesMight(int seed)

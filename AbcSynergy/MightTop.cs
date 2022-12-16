@@ -28,9 +28,9 @@ internal sealed class MightTop
         return y.Might.CompareTo(x.Might);
     }
 
-    public void PrintTop()
+    public void PrintTop(int squadSize)
     {
-        Console.WriteLine("Top heroes:");
+        Console.WriteLine($"Top {squadSize} heroes:");
 
         foreach (TopData topData in _topHeroes)
         {
