@@ -8,7 +8,7 @@ internal sealed class WeakLinkFinder
     private readonly MightCalculator _mightCalculator = new();
     private readonly List<List<HeroData>> _setBuffer = new List<List<HeroData>>();
 
-    public void Execute(int randomSeed, int squadSize)
+    public void Execute(int randomSeed, int squadSize, int limit)
     {
         StaticData.UpdateHeroesMight(randomSeed);
 
@@ -16,7 +16,7 @@ internal sealed class WeakLinkFinder
         stopwatch.Start();
         var activeSet = new List<HeroData>(StaticData.Heroes);
 
-        var results = new Results(120);
+        var results = new Results(limit);
         results.Add(activeSet, 0);
 
         var currentHeroesCount = activeSet.Count;
