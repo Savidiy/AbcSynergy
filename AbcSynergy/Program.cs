@@ -24,8 +24,7 @@ do
         heroesCount = result;
 } while (heroesCount == int.MinValue);
 
-StaticData.SetRandomSeed(randomSeed);
-StaticData.LeaveManyHeroes(heroesCount);
+StaticData.Initialize(randomSeed, heroesCount);
 StaticData.PrintHeroes();
 StaticData.PrintRules();
 
@@ -34,9 +33,13 @@ var weakLinkFinder = new WeakLinkFinder();
 Console.WriteLine($"\n   Start weak link algorithm with limit = {limit}");
 weakLinkFinder.Execute(SQUAD_SIZE, limit);
 
-Console.WriteLine("\n   Start brute force algorithm");
-var heroBruteForceChecker = new HeroBruteForceChecker();
-heroBruteForceChecker.Execute(SQUAD_SIZE);
+Console.WriteLine("\n   Start prince find algorithm");
+var princeFinder = new PrinceFinder();
+princeFinder.Execute(SQUAD_SIZE);
+//
+// Console.WriteLine("\n   Start brute force algorithm");
+// var heroBruteForceChecker = new HeroBruteForceChecker();
+// heroBruteForceChecker.Execute(SQUAD_SIZE);
 //
 // Console.WriteLine("\n   Start class cross race algorithm");
 // var oracle = new ClassCrossRaceOracle();

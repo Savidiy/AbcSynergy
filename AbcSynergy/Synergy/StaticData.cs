@@ -153,10 +153,14 @@ namespace AbcSynergy.Synergy
 
         private static Random _random = new();
 
-        public static void SetRandomSeed(int seed)
+        public static Dictionary<Class, List<HeroData>> MightyHeroesByClass { get; } = new();
+        public static Dictionary<Race, List<HeroData>> MightyHeroesByRace { get; } = new();
+        public static List<HeroData> MightyHeroes { get; private set; }
+
+        public static void Initialize(int seed, int heroesCount)
         {
             _random = new Random(seed);
-            foreach (HeroData heroData in StaticData.Heroes)
+            foreach (HeroData heroData in Heroes)
             {
                 int might = _random.Next(10, 1000);
                 bool canHaveMana = _random.Next(0, 2) == 0;
@@ -164,7 +168,10 @@ namespace AbcSynergy.Synergy
                 heroData.SetRandom(might, canHaveMana, damagePerSecond);
             }
 
+            LeaveManyHeroes(heroesCount);
+
             UpdateSortedLists();
+            UpdateRuleAvailability();
         }
 
         private static void UpdateSortedLists()
@@ -187,34 +194,32 @@ namespace AbcSynergy.Synergy
             }
         }
 
-        public static Dictionary<Class, List<HeroData>> MightyHeroesByClass { get; } = new();
-        public static Dictionary<Race, List<HeroData>> MightyHeroesByRace { get; } = new();
-
         private static Comparison<HeroData> MightComparison()
         {
             return (a, b) => b.Might.CompareTo(a.Might);
         }
 
-        public static List<HeroData> MightyHeroes { get; private set; }
-
-        public static void LeaveManyHeroes(int heroesCount)
+        private static void LeaveManyHeroes(int heroesCount)
         {
             for (int i = Heroes.Count - 1; i >= heroesCount; i--)
             {
                 int next = _random.Next(0, Heroes.Count);
                 Heroes.RemoveAt(next);
             }
-            
-            UpdateSortedLists();
-            UpdateRuleAvailability();
+
+            for (var index = 0; index < Heroes.Count; index++)
+            {
+                HeroData heroData = Heroes[index];
+                heroData.SetIndex(index);
+            }
         }
 
         private static void UpdateRuleAvailability()
         {
-            foreach (ClassRule classRule in ClassRules) 
+            foreach (ClassRule classRule in ClassRules)
                 classRule.UpdateAvailability();
 
-            foreach (RaceRule raceRule in RaceRules) 
+            foreach (RaceRule raceRule in RaceRules)
                 raceRule.UpdateAvailability();
         }
 

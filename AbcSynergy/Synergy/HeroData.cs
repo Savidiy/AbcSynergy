@@ -3,6 +3,7 @@
     internal sealed class HeroData
     {
         public string Id { get; }
+        public int Index { get; private set; }
         public Race Race { get; }
         public Class Class { get; }
         public int Might { get; private set; }
@@ -36,6 +37,11 @@
         public override string ToString()
         {
             return $"{Id} (Might={Might}, DPS={DamagePerSecond}, {Race}, {Class}{(CanHaveMana ? ", have mana" : "")})";
+        }
+
+        public void SetIndex(int index)
+        {
+            Index = index;
         }
     }
 }
