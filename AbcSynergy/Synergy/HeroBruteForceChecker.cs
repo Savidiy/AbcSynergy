@@ -29,7 +29,7 @@ internal sealed class HeroBruteForceChecker
         }
 
         Console.WriteLine($"Planned {repeatsCount} iterations. Progress in %:");
-        long repeatCounterLimit = repeatsCount / 1000;
+        long repeatCounterLimit = Math.Max(repeatsCount / 1000, 1);
         long repeatCounter = 0;
         int tenCounter = 0;
 

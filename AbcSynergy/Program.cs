@@ -41,3 +41,6 @@ heroBruteForceChecker.Execute(SQUAD_SIZE);
 // Console.WriteLine("\n   Start class cross race algorithm");
 // var oracle = new ClassCrossRaceOracle();
 // oracle.Execute(SQUAD_SIZE);
+
+Console.WriteLine("Press any key to close");
+Console.ReadKey();
