@@ -9,10 +9,10 @@
             if (resultCount > indexQuantity)
                 throw new Exception(
                     $"Founded index count '{resultCount}' must be least or equal index quantity '{indexQuantity}'");
-            
+
             if (!_precalculatedResults.ContainsKey(resultCount))
-                _precalculatedResults.Add(resultCount, new Dictionary<int, List<IReadOnlyList<int>>>());            
-            
+                _precalculatedResults.Add(resultCount, new Dictionary<int, List<IReadOnlyList<int>>>());
+
             if (!_precalculatedResults[resultCount].ContainsKey(indexQuantity))
             {
                 var indexes = new List<int>(indexQuantity);

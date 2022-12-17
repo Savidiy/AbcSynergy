@@ -8,7 +8,7 @@ internal sealed class WeakLinkFinder
     private readonly MightCalculator _mightCalculator = new();
     private readonly List<List<HeroData>> _setBuffer = new List<List<HeroData>>();
 
-    public void Execute(int randomSeed, int squadSize, int limit)
+    public void Execute(int squadSize, int limit)
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();
@@ -37,20 +37,17 @@ internal sealed class WeakLinkFinder
             currentHeroesCount--;
         }
 
+        var mightTop = new MightTop();
+
         for (var index = 0; index < 5; index++)
         {
             ResultData resultData = results.Top[index];
-            Console.Write($" {resultData.Might:F0} ");
-            foreach (HeroData heroData in resultData.Heroes)
-            {
-                Console.Write(heroData.Id);
-                Console.Write(", ");
-            }
-
-            Console.Write($"\n");
+            float calcMight = _mightCalculator.CalcMight(resultData.Heroes);
+            mightTop.TryAdd(calcMight, resultData.Heroes);
         }
         
         stopwatch.Stop();
+        mightTop.PrintTop();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
     }
 

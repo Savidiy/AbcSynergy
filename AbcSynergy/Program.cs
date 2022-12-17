@@ -29,10 +29,15 @@ StaticData.LeaveManyHeroes(heroesCount);
 StaticData.PrintHeroes();
 StaticData.PrintRules();
 
-Console.WriteLine("\nStart weak link algorithm.");
+var limit = 100;
 var weakLinkFinder = new WeakLinkFinder();
-weakLinkFinder.Execute(randomSeed, SQUAD_SIZE, 100);
+Console.WriteLine($"\n   Start weak link algorithm with limit = {limit}");
+weakLinkFinder.Execute(SQUAD_SIZE, limit);
 
-Console.WriteLine("\nStart class cross race algorithm.");
-var oracle = new ClassCrossRaceOracle();
-oracle.Execute(randomSeed, SQUAD_SIZE);
+Console.WriteLine("\n   Start brute force algorithm");
+var heroBruteForceChecker = new HeroBruteForceChecker();
+heroBruteForceChecker.Execute(SQUAD_SIZE);
+//
+// Console.WriteLine("\n   Start class cross race algorithm");
+// var oracle = new ClassCrossRaceOracle();
+// oracle.Execute(SQUAD_SIZE);

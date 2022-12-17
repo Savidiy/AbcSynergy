@@ -5,25 +5,24 @@ namespace AbcSynergy;
 
 public class ClassCrossRaceOracle
 {
-    private const int MAX_RULES_SIMULTANEOUSLY = 4;
     private readonly MightCalculator _mightCalculator = new();
     private HeroData[] _mightHeroesBuffer;
     private int _squadSize;
 
-    public void Execute(int randomSeed, int squadSize)
+    public void Execute(int squadSize)
     {
         _squadSize = squadSize;
         _mightHeroesBuffer = new HeroData[squadSize];
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
-        var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, squadSize);
+        var heroesCombinator = new HeroesCombinator(squadSize);
         List<HeroData> heroesBuffer = new(squadSize);
         var mightTop = new MightTop();
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         Console.WriteLine(
-            $"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {squadSize} heroes, random seed {randomSeed}");
+            $"Class combinations {classCombinations.Count} * race combinations {raceCombinations.Count} for {squadSize} heroes");
 
         for (var classIndex = 0; classIndex < classCombinations.Count; classIndex++)
         {
@@ -33,7 +32,7 @@ public class ClassCrossRaceOracle
                 RulesSet raceRules = raceCombinations[index];
 
                 float might = FindBestHeroes(classRules, raceRules, heroesCombinator, heroesBuffer);
-                mightTop.TryAdd(might, heroesBuffer, classRules, raceRules);
+                mightTop.TryAdd(might, heroesBuffer);
             }
 
             if (classIndex % 10 == 0)
@@ -45,7 +44,7 @@ public class ClassCrossRaceOracle
         // assert
         stopwatch.Stop();
         Console.WriteLine();
-        mightTop.PrintTop(squadSize);
+        mightTop.PrintTop();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
     }
 

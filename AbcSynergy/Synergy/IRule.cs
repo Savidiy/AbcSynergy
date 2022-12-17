@@ -4,6 +4,7 @@
     {
         int Index { get; }
         int Count { get; }
+        bool IsUsedInCalculation { get; set; }
         
         bool CanAddHero(HeroData heroData);
         bool TryAddHero(HeroData heroData);

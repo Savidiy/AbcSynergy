@@ -6,14 +6,21 @@ internal class TopData
 {
     public float Might { get; }
     public List<HeroData> Heroes { get; }
-    public RulesSet ClassRules { get; }
-    public RulesSet RaceRules { get; }
+    public List<IRule> Rules { get; }
 
-    public TopData(float might, IReadOnlyList<HeroData> heroes, RulesSet classRules, RulesSet raceRules)
+    public TopData(float might, IReadOnlyList<HeroData> heroes)
     {
         Might = might;
         Heroes = new List<HeroData>(heroes);
-        ClassRules = classRules;
-        RaceRules = raceRules;
+        Rules = new List<IRule>();
+        
+        foreach (ClassRule classRule in StaticData.ClassRules)
+            if (classRule.IsUsedInCalculation)
+                Rules.Add(classRule);
+
+        foreach (RaceRule raceRule in StaticData.RaceRules)
+            if (raceRule.IsUsedInCalculation)
+                Rules.Add(raceRule);
+
     }
 }

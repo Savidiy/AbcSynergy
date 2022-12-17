@@ -25,6 +25,8 @@ internal sealed class MightCalculator
         for (int index = StaticData.ClassRules.Count - 1; index >= 0; index--)
         {
             ClassRule classRule = StaticData.ClassRules[index];
+            classRule.IsUsedInCalculation = false;
+            
             Class ruleClass = classRule.Class;
             if (_usedClasses.Contains(ruleClass))
                 continue;
@@ -32,6 +34,7 @@ internal sealed class MightCalculator
             if (_heroesOfClass[ruleClass] < classRule.Count)
                 continue;
 
+            classRule.IsUsedInCalculation = true;
             _usedClasses.Add(ruleClass);
             AddMight(heroes, classRule);
         }
@@ -39,6 +42,8 @@ internal sealed class MightCalculator
         for (int index = StaticData.RaceRules.Count - 1; index >= 0; index--)
         {
             RaceRule raceRule = StaticData.RaceRules[index];
+            raceRule.IsUsedInCalculation = false;
+            
             Race ruleClass = raceRule.Race;
             if (_usedRaces.Contains(ruleClass))
                 continue;
@@ -46,6 +51,7 @@ internal sealed class MightCalculator
             if (_heroesOfRace[ruleClass] < raceRule.Count)
                 continue;
 
+            raceRule.IsUsedInCalculation = true;
             _usedRaces.Add(ruleClass);
             AddMight(heroes, raceRule);
         }
@@ -54,7 +60,6 @@ internal sealed class MightCalculator
         foreach (HeroData heroData in heroes)
         {
             might += heroData.ModifiedMight;
-            // heroData.ModifiedMight = heroData.Might;
         }
 
         return might;

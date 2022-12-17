@@ -9,16 +9,16 @@ internal sealed class MightTop
     private readonly List<TopData> _topHeroes = new();
     private readonly StringBuilder _stringBuilder = new();
 
-    public void TryAdd(float might, IReadOnlyList<HeroData> heroesBuffer, RulesSet classRules, RulesSet raceRules)
+    public void TryAdd(float might, IReadOnlyList<HeroData> heroesBuffer)
     {
         if (_topHeroes.Count < TOP_COUNT)
         {
-            _topHeroes.Add(new TopData(might, heroesBuffer, classRules, raceRules));
+            _topHeroes.Add(new TopData(might, heroesBuffer));
             _topHeroes.Sort(MightDecreaseComparison);
         }
         else if (might - _topHeroes[^1].Might > 1)
         {
-            _topHeroes[^1] = new TopData(might, heroesBuffer, classRules, raceRules);
+            _topHeroes[^1] = new TopData(might, heroesBuffer);
             _topHeroes.Sort(MightDecreaseComparison);
         }
     }
@@ -28,31 +28,29 @@ internal sealed class MightTop
         return y.Might.CompareTo(x.Might);
     }
 
-    public void PrintTop(int squadSize)
+    public void PrintTop()
     {
-        Console.WriteLine($"Top {squadSize} heroes:");
+        Console.WriteLine($"Top heroes:");
 
         foreach (TopData topData in _topHeroes)
         {
             Console.Write($"{topData.Might:F0}: ");
             Console.Write(PrintHeroes(topData.Heroes));
             Console.Write(" (");
-            Console.Write(PrintRules(topData.ClassRules));
-            Console.Write(", ");
-            Console.Write(PrintRules(topData.RaceRules));
+            Console.Write(PrintRules(topData.Rules));
             Console.WriteLine(")");
         }
     }
 
-    private string PrintRules(RulesSet rulesSet)
+    private string PrintRules(List<IRule> rules)
     {
-        int rulesCount = rulesSet.Rules.Count;
+        int rulesCount = rules.Count;
         for (var index = 0; index < rulesCount; index++)
         {
             if (index != 0)
                 _stringBuilder.Append(", ");
 
-            IRule rule = rulesSet.Rules[index];
+            IRule rule = rules[index];
             _stringBuilder.Append(rule);
         }
 
@@ -75,13 +73,5 @@ internal sealed class MightTop
         var result = _stringBuilder.ToString();
         _stringBuilder.Clear();
         return result;
-    }
-
-    public float GetBestMight()
-    {
-        if (_topHeroes.Count > 0)
-            return _topHeroes[0].Might;
-
-        return 0;
     }
 }

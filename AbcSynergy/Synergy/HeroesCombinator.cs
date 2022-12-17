@@ -12,9 +12,10 @@
 
         public bool HasNextCombination => _hasNextCombination;
 
-        public HeroesCombinator(int maxSetsCount, int maxHeroesCount)
+        public HeroesCombinator(int maxHeroesCount)
         {
             _selectedHeroes = new(maxHeroesCount);
+            var maxSetsCount = maxHeroesCount / 2 + 1;
             _heroSets = new(maxSetsCount);
             _combinationIndexes = new int[maxSetsCount];
             _maxCombinationIndexes = new int[maxSetsCount];

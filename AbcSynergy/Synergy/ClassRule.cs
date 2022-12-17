@@ -6,6 +6,7 @@
         public Class Class { get; }
         public int Index { get; }
         public int Count { get; }
+        public bool IsUsedInCalculation { get; set; }
         public bool IsRuleForAnyHeroes { get; }
         public List<HeroData> Heroes { get; } = new();
         public float MightMultiplier { get; }
