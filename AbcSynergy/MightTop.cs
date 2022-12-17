@@ -5,7 +5,7 @@ namespace AbcSynergy;
 
 internal sealed class MightTop
 {
-    private const int TOP_COUNT = 5;
+    private const int TOP_COUNT = 10;
     private readonly List<TopData> _topHeroes = new();
     private readonly StringBuilder _stringBuilder = new();
 

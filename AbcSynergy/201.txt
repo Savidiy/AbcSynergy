@@ -1,0 +1,137 @@
+Please enter random seed: 201
+Enter heroes count (max 59, Enter to skip):
+
+   Heroes:
+1. Диего (Might=736, DPS=5888, Plant, Warrior)
+2. Шарисса (Might=465, DPS=3720, Reptile, Slayer)
+3. Конрадд (Might=965, DPS=11580, Undead, Warrior, have mana)
+4. Максимус (Might=398, DPS=3582, Tribe, Slayer, have mana)
+5. Рататоск (Might=812, DPS=8932, Beast, Thief, have mana)
+6. Тодд (Might=563, DPS=5630, Reptile, Guardian, have mana)
+7. Рагнар (Might=127, DPS=1270, Gnome, Guardian, have mana)
+8. Империон (Might=169, DPS=1352, Empire, Soaring)
+9. Нобель (Might=405, DPS=4455, Elemental, Soaring)
+10. Геката (Might=236, DPS=2832, Elf, Warlock, have mana)
+11. Хеллсинг (Might=397, DPS=2779, Drifter, Shooter, have mana)
+12. Минерва (Might=37, DPS=333, Beast, Mage)
+13. Мэрилин (Might=533, DPS=5863, Empire, Mage, have mana)
+14. Титания (Might=95, DPS=950, Empire, Warrior)
+15. До-Цо (Might=129, DPS=1548, Beast, Warrior, have mana)
+16. Норрис (Might=805, DPS=8050, Beast, Slayer)
+17. Юкки (Might=785, DPS=8635, Drifter, Thief)
+18. Ланселот (Might=316, DPS=2844, Empire, Guardian)
+19. Джакси (Might=446, DPS=4906, Tribe, Guardian)
+20. Эдвин (Might=23, DPS=161, Drifter, Warlock, have mana)
+21. Рашмор (Might=470, DPS=3760, Elemental, Warlock)
+22. Ярра (Might=887, DPS=10644, Tribe, Shaman, have mana)
+23. Бруно (Might=274, DPS=2192, Plant, Shaman)
+24. Клаус (Might=210, DPS=2520, Gnome, Shooter, have mana)
+25. Вара (Might=851, DPS=6808, Demon, Shooter, have mana)
+26. Рамзес (Might=965, DPS=11580, Undead, Healer, have mana)
+27. Вивьен (Might=375, DPS=2625, Elf, Healer)
+28. Садако (Might=149, DPS=1192, Undead, Mage, have mana)
+29. Али (Might=204, DPS=2244, Tribe, Warrior, have mana)
+30. Ангелия (Might=690, DPS=5520, Empire, Slayer)
+31. Винчи (Might=644, DPS=5152, Gnome, Warrior)
+32. Азраил (Might=620, DPS=4340, Undead, Slayer)
+33. Альтаир (Might=350, DPS=2450, Reptile, Thief, have mana)
+34. Гаргулли (Might=905, DPS=10860, Demon, Guardian)
+35. Гискара (Might=398, DPS=4378, Beast, Soaring)
+36. Хазред (Might=772, DPS=7720, Undead, Warlock, have mana)
+37. Ингрид (Might=115, DPS=1150, Empire, Shaman, have mana)
+38. Бурбон (Might=891, DPS=8019, Beast, Shaman)
+39. Гомер (Might=73, DPS=584, Plant, Shooter, have mana)
+40. Лариэль (Might=937, DPS=11244, Elf, Shooter)
+41. Блэр (Might=283, DPS=2264, Drifter, Healer)
+42. Имар (Might=959, DPS=9590, Elemental, Mage)
+43. Мордред (Might=694, DPS=6246, Demon, Warrior, have mana)
+44. Сильвия (Might=262, DPS=2882, Elf, Thief)
+45. Лихо (Might=924, DPS=6468, Plant, Guardian, have mana)
+46. Таурус (Might=153, DPS=1836, Beast, Guardian)
+47. Смауг (Might=526, DPS=5260, Undead, Soaring, have mana)
+48. Кормак (Might=44, DPS=308, Gnome, Shaman)
+49. Артемида (Might=724, DPS=8688, Empire, Shooter)
+50. Тортулус (Might=837, DPS=6696, Reptile, Healer)
+51. Нерон (Might=786, DPS=7860, Drifter, Mage, have mana)
+52. Клио (Might=109, DPS=1308, Demon, Mage)
+53. Ханзо (Might=745, DPS=5215, Drifter, Warrior, have mana)
+54. Танатос (Might=249, DPS=1992, Demon, Slayer, have mana)
+55. Мясник (Might=260, DPS=3120, Undead, Guardian)
+56. Шен-Лунь (Might=729, DPS=5832, Reptile, Soaring)
+57. Тенгу (Might=412, DPS=4120, Beast, Warlock)
+58. Мария (Might=431, DPS=3448, Empire, Healer, have mana)
+59. Зевс (Might=302, DPS=3624, Gnome, Mage, have mana)
+
+   Class rules:
+Warrior #2 +10% for OnlyMyType
+Warrior #4 +23% for OnlyMyType
+Slayer #2 +10% for OnlyMyType
+Slayer #4 +23% for OnlyMyType
+Thief #2 +25% for OnlyMyType
+Thief #4 +40% for All
+Guardian #2 +10% for All
+Guardian #4 +25% for All
+Soaring #2 +20% for All
+Soaring #3 +27% for All
+Soaring #4 +40% for All
+Warlock #2 +5% for All
+Warlock #3 +7,5% for All
+Warlock #4 +12% for All
+Shaman #2 +12% for All
+Shaman #3 +26% for All
+Shaman #4 +52% for All
+Shooter #2 +10% for OnlyMyType
+Shooter #4 +23% for OnlyMyType
+Healer #2 +11% for All
+Healer #3 +16% for All
+Healer #4 +22% for All
+Mage #2 +9% for CanHaveMana
+Mage #4 +23% for CanHaveMana
+
+   Race rules:
+Empire #2 +8,8% for All
+Empire #4 +22% for All
+Undead #2 +12,5% for All
+Undead #4 +30% for All
+Beast #2 +7% for All
+Beast #3 +14% for All
+Beast #4 +26% for All
+Drifter #2 +10% for All
+Drifter #3 +15% for All
+Drifter #4 +25% for All
+Tribe #2 +40% for MostDanger
+Tribe #3 +70% for MostDanger
+Plant #2 +12% for All
+Plant #3 +26% for All
+Reptile #2 +20% for OnlyMyType
+Reptile #4 +80% for All
+Gnome #2 +14% for OnlyMyType
+Gnome #4 +28% for All
+Elemental #3 +25% for OnlyMyType
+Elf #2 +16% for OnlyMyType
+Elf #3 +26% for All
+Demon #2 +11% for All
+Demon #4 +22% for All
+
+   Start weak link algorithm with limit = 100
+Top heroes:
+18858: Тодд, Вара, Рамзес, Альтаир, Гаргулли, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4, R_Demon_2)
+18709: Диего, Тодд, Рамзес, Альтаир, Лихо, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Plant_2, R_Reptile_4)
+17792: Рататоск, Тодд, Рамзес, Альтаир, Лихо, Смауг, Тортулус, Шен-Лунь (C_Thief_2, C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4)
+17735: Рататоск, Тодд, Рамзес, Альтаир, Гаргулли, Смауг, Тортулус, Шен-Лунь (C_Thief_2, C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4)
+17692: Тодд, Юкки, Рамзес, Альтаир, Лихо, Смауг, Тортулус, Шен-Лунь (C_Thief_2, C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4)
+
+Elapsed 2782 mils
+
+   Start brute force algorithm
+Planned 2217471399 iterations. Progress in %:
+.........1.........2.........3.........4.........5.........6.........7.........8.........9.........10.........11.........12.........13.........14.........15.........16.........17.........18.........19.........20.........21.........22.........23.........24.........25.........26.........27.........28.........29.........30.........31.........32.........33.........34.........35.........36.........37.........38.........39.........40.........41.........42.........43.........44.........45.........46.........47.........48.........49.........50.........51.........52.........53.........54.........55.........56.........57.........58.........59.........60.........61.........62.........63.........64.........65.........66.........67.........68.........69.........70.........71.........72.........73.........74.........75.........76.........77.........78.........79.........80.........81.........82.........83.........84.........85.........86.........87.........88.........89.........90.........91.........92.........93.........94.........95.........96.........97.........98.........99.........100
+Top heroes:
+19237: Шарисса, Тодд, Вара, Рамзес, Гаргулли, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4, R_Demon_2)
+19091: Диего, Шарисса, Тодд, Рамзес, Лихо, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Plant_2, R_Reptile_4)
+18858: Тодд, Вара, Рамзес, Альтаир, Гаргулли, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4, R_Demon_2)
+18720: Шарисса, Тодд, Рамзес, Гаргулли, Мордред, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Reptile_4, R_Demon_2)
+18709: Диего, Тодд, Рамзес, Альтаир, Лихо, Смауг, Тортулус, Шен-Лунь (C_Guardian_2, C_Soaring_2, C_Healer_2, R_Undead_2, R_Plant_2, R_Reptile_4)
+
+Elapsed 6182069 mils
+Press any key to close
