@@ -10,7 +10,7 @@
         public List<HeroData> Heroes { get; } = new();
         public float MightMultiplier { get; }
         public BuffType BuffType { get; }
-        public bool IsAvailableRule => StaticData.MightyHeroesByClass.TryGetValue(Class, out var list) && list.Count >= Count;
+        public bool IsAvailableRule { get; private set; }
 
         public ClassRule(
             Class @class,
@@ -57,6 +57,11 @@
             }
 
             Heroes.Clear();
+        }
+
+        public void UpdateAvailability()
+        {
+            IsAvailableRule = StaticData.MightyHeroesByClass.TryGetValue(Class, out var list) && list.Count >= Count;
         }
 
         public string ToLongString()

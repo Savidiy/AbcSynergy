@@ -151,14 +151,16 @@ namespace AbcSynergy.Synergy
             new(Race.Any, 9, 0f, BuffType.All),
         };
 
-        public static void UpdateHeroesMight(int seed)
+        private static Random _random = new();
+
+        public static void SetRandomSeed(int seed)
         {
-            var random = new Random(seed);
+            _random = new Random(seed);
             foreach (HeroData heroData in StaticData.Heroes)
             {
-                int might = random.Next(10, 1000);
-                bool canHaveMana = random.Next(0, 2) == 0;
-                int damagePerSecond = might * random.Next(7, 13);
+                int might = _random.Next(10, 1000);
+                bool canHaveMana = _random.Next(0, 2) == 0;
+                int damagePerSecond = might * _random.Next(7, 13);
                 heroData.SetRandom(might, canHaveMana, damagePerSecond);
             }
 
@@ -195,23 +197,45 @@ namespace AbcSynergy.Synergy
 
         public static List<HeroData> MightyHeroes { get; private set; }
 
+        public static void LeaveManyHeroes(int heroesCount)
+        {
+            for (int i = Heroes.Count - 1; i >= heroesCount; i--)
+            {
+                int next = _random.Next(0, Heroes.Count);
+                Heroes.RemoveAt(next);
+            }
+            
+            UpdateSortedLists();
+            UpdateRuleAvailability();
+        }
+
+        private static void UpdateRuleAvailability()
+        {
+            foreach (ClassRule classRule in ClassRules) 
+                classRule.UpdateAvailability();
+
+            foreach (RaceRule raceRule in RaceRules) 
+                raceRule.UpdateAvailability();
+        }
+
         public static void PrintHeroes()
         {
-            Console.WriteLine("\nHeroes:");
-            foreach (HeroData heroData in Heroes)
+            Console.WriteLine("\n   Heroes:");
+            for (var index = 0; index < Heroes.Count; index++)
             {
-                Console.WriteLine(heroData);
+                HeroData heroData = Heroes[index];
+                Console.WriteLine($"{index + 1}. " + heroData);
             }
         }
 
         public static void PrintRules()
         {
-            Console.WriteLine("\nClass rules:");
+            Console.WriteLine("\n   Class rules:");
             foreach (ClassRule classRule in ClassRules)
                 if (classRule.IsAvailableRule)
                     Console.WriteLine(classRule.ToLongString());
 
-            Console.WriteLine("\nRace rules:");
+            Console.WriteLine("\n   Race rules:");
             foreach (RaceRule raceRule in RaceRules)
                 if (raceRule.IsAvailableRule)
                     Console.WriteLine(raceRule.ToLongString());

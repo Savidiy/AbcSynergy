@@ -10,8 +10,6 @@ internal sealed class WeakLinkFinder
 
     public void Execute(int randomSeed, int squadSize, int limit)
     {
-        StaticData.UpdateHeroesMight(randomSeed);
-
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         var activeSet = new List<HeroData>(StaticData.Heroes);

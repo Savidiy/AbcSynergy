@@ -12,5 +12,6 @@
         BuffType BuffType { get; }
         bool IsAvailableRule { get; }
         void RemoveAllHeroes();
+        void UpdateAvailability();
     }
 }

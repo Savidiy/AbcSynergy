@@ -3,7 +3,7 @@ using AbcSynergy.Synergy;
 
 namespace AbcSynergy;
 
-public class Oracle
+public class ClassCrossRaceOracle
 {
     private const int MAX_RULES_SIMULTANEOUSLY = 4;
     private readonly MightCalculator _mightCalculator = new();
@@ -14,7 +14,6 @@ public class Oracle
     {
         _squadSize = squadSize;
         _mightHeroesBuffer = new HeroData[squadSize];
-        StaticData.UpdateHeroesMight(randomSeed);
         List<RulesSet> classCombinations = GetClassCombinations();
         List<RulesSet> raceCombinations = GetRaceCombinations();
         var heroesCombinator = new HeroesCombinator(MAX_RULES_SIMULTANEOUSLY, squadSize);
@@ -45,9 +44,8 @@ public class Oracle
 
         // assert
         stopwatch.Stop();
+        Console.WriteLine();
         mightTop.PrintTop(squadSize);
-        StaticData.PrintHeroes();
-        StaticData.PrintRules();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
     }
 
