@@ -28,7 +28,7 @@ StaticData.Initialize(randomSeed, heroesCount);
 StaticData.PrintHeroes();
 StaticData.PrintRules();
 
-var limit = 100;
+var limit = 300;
 var weakLinkFinder = new WeakLinkFinder();
 Console.WriteLine($"\n   Start weak link algorithm with limit = {limit}");
 weakLinkFinder.Execute(SQUAD_SIZE, limit);
@@ -36,14 +36,21 @@ weakLinkFinder.Execute(SQUAD_SIZE, limit);
 Console.WriteLine("\n   Start prince find algorithm");
 var princeFinder = new PrinceFinder();
 princeFinder.Execute(SQUAD_SIZE);
-//
-// Console.WriteLine("\n   Start brute force algorithm");
-// var heroBruteForceChecker = new HeroBruteForceChecker();
-// heroBruteForceChecker.Execute(SQUAD_SIZE);
-//
+
+Console.WriteLine("\n   Start brute force algorithm");
+var heroBruteForceChecker = new HeroBruteForceChecker();
+heroBruteForceChecker.Execute(SQUAD_SIZE);
+
 // Console.WriteLine("\n   Start class cross race algorithm");
 // var oracle = new ClassCrossRaceOracle();
 // oracle.Execute(SQUAD_SIZE);
 
-Console.WriteLine("Press any key to close");
-Console.ReadKey();
+Console.WriteLine("Press 'Esc' key to close");
+bool needRepeat = true;
+do
+{
+    ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(intercept: true);
+
+    if (consoleKeyInfo.Key == ConsoleKey.Escape)
+        needRepeat = false;
+} while (needRepeat);

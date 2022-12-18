@@ -6,7 +6,7 @@ namespace AbcSynergy;
 internal sealed class WeakLinkFinder
 {
     private readonly MightCalculator _mightCalculator = new();
-    private readonly List<List<HeroData>> _setBuffer = new List<List<HeroData>>();
+    private List<HeroData> _setBuffer = new List<HeroData>();
 
     public void Execute(int squadSize, int limit)
     {
@@ -18,14 +18,13 @@ internal sealed class WeakLinkFinder
         results.Add(activeSet, 0);
 
         var currentHeroesCount = activeSet.Count;
-
-        for (int i = 0; i < currentHeroesCount; i++)
-        {
-            _setBuffer.Add(new List<HeroData>(currentHeroesCount));
-        }
+        _setBuffer = new List<HeroData>(currentHeroesCount);
 
         while (currentHeroesCount > squadSize)
         {
+            Console.Write(currentHeroesCount);
+            Console.Write(" ");
+
             List<List<HeroData>> sets = results.GetCurrentResult();
             results.Clear();
 
@@ -45,8 +44,9 @@ internal sealed class WeakLinkFinder
             float calcMight = _mightCalculator.CalcMight(resultData.Heroes);
             mightTop.TryAdd(calcMight, resultData.Heroes);
         }
-        
+
         stopwatch.Stop();
+        Console.WriteLine();
         mightTop.PrintTop();
         Console.WriteLine($"\nElapsed {stopwatch.ElapsedMilliseconds} mils");
     }
@@ -57,15 +57,12 @@ internal sealed class WeakLinkFinder
 
         for (int i = 0; i < maxIndex; i++)
         {
-            _setBuffer[i].Clear();
-            _setBuffer[i].AddRange(activeSet);
-            _setBuffer[i].RemoveAt(i);
-        }
+            _setBuffer.Clear();
+            _setBuffer.AddRange(activeSet);
+            _setBuffer.RemoveAt(i);
 
-        for (int i = 0; i < maxIndex; i++)
-        {
-            float calcMight = _mightCalculator.CalcMight(_setBuffer[i]);
-            results.Add(_setBuffer[i], calcMight);
+            float calcMight = _mightCalculator.CalcMight(_setBuffer);
+            results.Add(_setBuffer, calcMight);
         }
     }
 }
