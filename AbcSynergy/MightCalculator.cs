@@ -57,8 +57,9 @@ internal sealed class MightCalculator
         }
 
         float might = 0f;
-        foreach (HeroData heroData in heroes)
+        for (var index = 0; index < heroes.Count; index++)
         {
+            HeroData heroData = heroes[index];
             might += heroData.ModifiedMight;
         }
 
@@ -75,8 +76,9 @@ internal sealed class MightCalculator
         foreach (Race value in _heroesOfRace.Keys)
             _heroesOfRace[value] = 0;
 
-        foreach (HeroData heroData in heroes)
+        for (var index = 0; index < heroes.Count; index++)
         {
+            HeroData heroData = heroes[index];
             _heroesOfClass[heroData.Class]++;
             _heroesOfRace[heroData.Race]++;
             heroData.ModifiedMight = heroData.Might;

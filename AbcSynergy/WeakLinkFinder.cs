@@ -26,10 +26,11 @@ internal sealed class WeakLinkFinder
             Console.Write(" ");
 
             List<List<HeroData>> sets = results.GetCurrentResult();
-            results.Clear();
+            results.SetDirty();
 
-            foreach (List<HeroData> heroes in sets)
+            for (var index = 0; index < sets.Count; index++)
             {
+                List<HeroData> heroes = sets[index];
                 FindNewActiveSet(heroes, results);
             }
 
@@ -38,11 +39,10 @@ internal sealed class WeakLinkFinder
 
         var mightTop = new MightTop();
 
-        for (var index = 0; index < 5; index++)
+        for (var index = 0; index < results.Top.Count; index++)
         {
             ResultData resultData = results.Top[index];
-            float calcMight = _mightCalculator.CalcMight(resultData.Heroes);
-            mightTop.TryAdd(calcMight, resultData.Heroes);
+            mightTop.TryAdd(resultData.Might, resultData.Heroes);
         }
 
         stopwatch.Stop();
@@ -77,42 +77,72 @@ internal sealed class Results
         _limit = limit;
     }
 
-    public void Add(List<HeroData> heroes, float might)
+    public void Add(List<HeroData> newHeroes, float newMight)
     {
-        foreach (ResultData resultData in Top)
+        for (var index = 0; index < Top.Count; index++)
         {
-            if (resultData.HasSame(heroes))
+            ResultData resultData = Top[index];
+            if (resultData.HasSame(newHeroes))
                 return;
         }
-
-        Top.Add(new ResultData(new List<HeroData>(heroes), might));
-
-        if (Top.Count >= _limit)
+        
+        for (var index = 0; index < Top.Count; index++)
         {
-            Top.Sort((a, b) => b.Might.CompareTo(a.Might));
-            Top.RemoveAt(Top.Count - 1);
+            ResultData resultData = Top[index];
+            if (resultData.IsDirty)
+            {
+                resultData.Update(newMight, newHeroes);
+                return;
+            }
+        }
+
+        if (Top.Count < _limit)
+        {
+            Top.Add(new ResultData(newHeroes, newMight));
+        }
+        else
+        {
+            var minimalMight = float.MaxValue;
+            ResultData? minimalTop = null;
+
+            for (var i = 0; i < Top.Count; i++)
+            {
+                ResultData topHero = Top[i];
+                if (topHero.Might < minimalMight)
+                {
+                    minimalMight = topHero.Might;
+                    minimalTop = topHero;
+                }
+            }
+
+            minimalTop?.Update(newMight, newHeroes);
         }
     }
 
     public List<List<HeroData>> GetCurrentResult()
     {
-        return new List<List<HeroData>>(Top.Select(a => a.Heroes));
+        return new List<List<HeroData>>(Top.Select(a => new List<HeroData>(a.Heroes)));
     }
 
-    public void Clear()
+    public void SetDirty()
     {
-        Top.Clear();
+        foreach (ResultData resultData in Top)
+        {
+            resultData.IsDirty = true;
+        }
     }
 }
 
 internal sealed class ResultData
 {
     public List<HeroData> Heroes { get; }
-    public float Might { get; }
+    public float Might { get; set; }
+    public bool IsDirty { get; set; }
 
-    public ResultData(List<HeroData> heroes, float might)
+
+    public ResultData(IReadOnlyList<HeroData> heroes, float might)
     {
-        Heroes = heroes;
+        Heroes = new List<HeroData>(heroes);
         Might = might;
     }
 
@@ -128,5 +158,13 @@ internal sealed class ResultData
         }
 
         return true;
+    }
+
+    public void Update(float newMight, List<HeroData> newHeroes)
+    {
+        Might = newMight;
+        Heroes.Clear();
+        Heroes.AddRange(newHeroes);
+        IsDirty = false;
     }
 }

@@ -8,51 +8,99 @@ internal sealed class MightTop
     private const int TOP_COUNT = 10;
     private readonly List<TopData> _topHeroes = new();
     private readonly StringBuilder _stringBuilder = new();
+    private readonly MightCalculator _mightCalculator = new();
 
-    public void TryAdd(float might, IReadOnlyList<HeroData> heroesBuffer)
+    public void TryAdd(float newMight, IReadOnlyList<HeroData> newHeroes)
     {
         if (_topHeroes.Count < TOP_COUNT)
         {
-            _topHeroes.Add(new TopData(might, heroesBuffer));
-            _topHeroes.Sort(MightDecreaseComparison);
+            _topHeroes.Add(new TopData(newMight, newHeroes));
         }
-        else if (might - _topHeroes[^1].Might > 1)
+        else
         {
-            _topHeroes[^1] = new TopData(might, heroesBuffer);
-            _topHeroes.Sort(MightDecreaseComparison);
+            for (var i = 0; i < _topHeroes.Count; i++)
+            {
+                if (IsSameHeroes(_topHeroes[i], newHeroes, newMight))
+                    return;
+            }
+
+            var minimalMight = float.MaxValue;
+            TopData? minimalTop = null;
+
+            for (var i = 0; i < _topHeroes.Count; i++)
+            {
+                TopData topHero = _topHeroes[i];
+                if (topHero.Might < minimalMight)
+                {
+                    minimalMight = topHero.Might;
+                    minimalTop = topHero;
+                }
+            }
+
+            minimalTop?.Update(newMight, newHeroes);
         }
     }
 
-    private int MightDecreaseComparison(TopData x, TopData y)
+    private bool IsSameHeroes(TopData topHero, IReadOnlyList<HeroData> newHeroes, float newMight)
     {
-        return y.Might.CompareTo(x.Might);
+        if (topHero.Heroes.Count != newHeroes.Count)
+            return false;
+        
+        if (Math.Abs(topHero.Might - newMight) > 0.1f)
+            return false;
+
+        for (var index = 0; index < newHeroes.Count; index++)
+        {
+            if (newHeroes[index].Index != topHero.Heroes[index].Index)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void PrintTop()
     {
         Console.WriteLine($"Top heroes:");
+        
+        _topHeroes.Sort((a, b) => b.Might.CompareTo(a.Might));
 
         foreach (TopData topData in _topHeroes)
         {
             Console.Write($"{topData.Might:F0}: ");
             Console.Write(PrintHeroes(topData.Heroes));
             Console.Write(" (");
-            Console.Write(PrintRules(topData.Rules));
+            Console.Write(PrintRules(topData.Heroes));
             Console.WriteLine(")");
         }
     }
 
-    private string PrintRules(List<IRule> rules)
+    private string PrintRules(List<HeroData> heroes)
     {
-        int rulesCount = rules.Count;
-        for (var index = 0; index < rulesCount; index++)
-        {
-            if (index != 0)
-                _stringBuilder.Append(", ");
+        _mightCalculator.CalcMight(heroes);
 
-            IRule rule = rules[index];
-            _stringBuilder.Append(rule);
-        }
+        bool needSeparator = false;
+
+        foreach (ClassRule classRule in StaticData.ClassRules)
+            if (classRule.IsUsedInCalculation)
+            {
+                if (needSeparator)
+                    _stringBuilder.Append(", ");
+
+                _stringBuilder.Append(classRule);
+                needSeparator = true;
+            }
+
+        foreach (RaceRule raceRule in StaticData.RaceRules)
+            if (raceRule.IsUsedInCalculation)
+            {
+                if (needSeparator)
+                    _stringBuilder.Append(", ");
+
+                _stringBuilder.Append(raceRule);
+                needSeparator = true;
+            }
 
         var result = _stringBuilder.ToString();
         _stringBuilder.Clear();
