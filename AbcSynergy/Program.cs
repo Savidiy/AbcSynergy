@@ -28,10 +28,22 @@ StaticData.Initialize(randomSeed, heroesCount);
 StaticData.PrintHeroes();
 StaticData.PrintRules();
 
-var limit = 100;
-var weakLinkFinder = new WeakLinkFinder();
-Console.WriteLine($"\n   Start weak link algorithm with limit = {limit}");
-weakLinkFinder.Execute(SQUAD_SIZE, limit);
+do
+{
+    var iterations = 3000;
+    var temperatureDegradationMultiplier = 0.9997f;
+    var cycles = 50;
+    var simulatedAnnealingMethod = new SimulatedAnnealingMethod();
+    Console.WriteLine(
+        $"\n   Start simulated annealing algorithm iterations = {iterations}, koef = {temperatureDegradationMultiplier}, cycles = {cycles}");
+
+    simulatedAnnealingMethod.Execute(SQUAD_SIZE, iterations, temperatureDegradationMultiplier, cycles);
+} while (Console.ReadKey().Key == ConsoleKey.Enter);
+
+// var limit = 100;
+// var weakLinkFinder = new WeakLinkFinder();
+// Console.WriteLine($"\n   Start weak link algorithm with limit = {limit}");
+// weakLinkFinder.Execute(SQUAD_SIZE, limit);
 
 // Console.WriteLine("\n   Start prince find algorithm");
 // var princeFinder = new PrinceFinder();
@@ -45,12 +57,12 @@ weakLinkFinder.Execute(SQUAD_SIZE, limit);
 // var oracle = new ClassCrossRaceOracle();
 // oracle.Execute(SQUAD_SIZE);
 
-Console.WriteLine("Press 'Enter' key to close");
-bool needRepeat = true;
-do
-{
-    ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(intercept: true);
-
-    if (consoleKeyInfo.Key == ConsoleKey.Enter)
-        needRepeat = false;
-} while (needRepeat);
+// Console.WriteLine("Press 'Enter' key to close");
+// bool needRepeat = true;
+// do
+// {
+//     ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(intercept: true);
+//
+//     if (consoleKeyInfo.Key == ConsoleKey.Enter)
+//         needRepeat = false;
+// } while (needRepeat);
